@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,11 @@ namespace DataAccess.Concrete.InMemory
         {
             _cars = new List<Car>
             {
-                new Car {Id = 1 , BrandId = 1, ColorId=1 , DailyPrice = 250000 , ModelYear = 2021, Description = "Opel Corsa - Beyaz - Yeni Kasa"},
-                new Car {Id = 2 , BrandId = 2, ColorId=2 , DailyPrice = 158000 , ModelYear = 2021, Description = "Renault Kangoo - Füme Gri - Yeni Kasa"},
-                new Car {Id = 3 , BrandId = 2, ColorId=1 , DailyPrice = 129999 , ModelYear = 2021, Description = "Renault Dacia Logan - Beyaz - Yeni Kasa"},
-                new Car {Id = 4 , BrandId = 3, ColorId=3 , DailyPrice = 548000 , ModelYear = 2021, Description = "Volvo - Yeşil  - Yeni Kasa"},
-                new Car {Id = 5 , BrandId = 3, ColorId=4 , DailyPrice = 453700 , ModelYear = 2021, Description = "Volvo - Siyah - Yeni Kasa"},
+                new Car {CarId = 1 , BrandId = 1, ColorId=1 , DailyPrice = 250000 , ModelYear = 2021, Description = "Opel Corsa - Beyaz - Yeni Kasa"},
+                new Car {CarId = 2 , BrandId = 2, ColorId=2 , DailyPrice = 158000 , ModelYear = 2021, Description = "Renault Kangoo - Füme Gri - Yeni Kasa"},
+                new Car {CarId = 3 , BrandId = 2, ColorId=1 , DailyPrice = 129999 , ModelYear = 2021, Description = "Renault Dacia Logan - Beyaz - Yeni Kasa"},
+                new Car {CarId = 4 , BrandId = 3, ColorId=3 , DailyPrice = 548000 , ModelYear = 2021, Description = "Volvo - Yeşil  - Yeni Kasa"},
+                new Car {CarId = 5 , BrandId = 3, ColorId=4 , DailyPrice = 453700 , ModelYear = 2021, Description = "Volvo - Siyah - Yeni Kasa"},
             };
 
         }
@@ -33,7 +34,7 @@ namespace DataAccess.Concrete.InMemory
 
         public void Delete(Car car)
         {
-            Car carToDelete = _cars.SingleOrDefault(c=> c.Id == car.Id);
+            Car carToDelete = _cars.SingleOrDefault(c=> c.CarId == car.CarId);
             _cars.Remove(carToDelete);
         }
 
@@ -57,9 +58,14 @@ namespace DataAccess.Concrete.InMemory
             return _cars.Where(c => c.BrandId == BrandId).ToList();
         }
 
+        public List<CarDetailDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Car car)
         {
-            Car carToUpdate = _cars.SingleOrDefault(c => c.Id == car.Id);
+            Car carToUpdate = _cars.SingleOrDefault(c => c.CarId == car.CarId);
 
             carToUpdate.BrandId = car.BrandId;
             carToUpdate.ColorId = car.ColorId;
