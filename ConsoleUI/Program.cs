@@ -10,13 +10,13 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             //GetAllCars();
-            //GetCarsdetails();
+            GetCarsdetails();
             //GetCarbyBrandId();
            // AddCar();
            // GetAllBrands();
             //GetAllColors();
              //AddBrand();
-           AddColor();
+           //AddColor();
 
         }
 
@@ -30,7 +30,7 @@ namespace ConsoleUI
         private static void GetAllColors()
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            foreach (var color in colorManager.GetAll())
+            foreach (var color in colorManager.GetAll().Data)
             {
                 Console.WriteLine(color.ColorId + "/" + color.ColorName);
             }
@@ -46,7 +46,7 @@ namespace ConsoleUI
         private static void GetAllBrands()
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            foreach (var brand in brandManager.GetAll())
+            foreach (var brand in brandManager.GetAll().Data)
             {
                 Console.WriteLine(brand.BrandId + "//" + brand.BrandName);
             }
@@ -62,7 +62,7 @@ namespace ConsoleUI
         private static void GetCarbyBrandId()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var brandid in carManager.GetCarsByBrandId(1))
+            foreach (var brandid in carManager.GetCarsByBrandId(1).Data)
             {
                 Console.WriteLine(brandid.BrandId + "//" + brandid.Description);
             }
@@ -71,9 +71,17 @@ namespace ConsoleUI
         private static void GetCarsdetails()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var cardetail in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+            if (result.Success == true)
             {
-                Console.WriteLine("CarName "+ cardetail.Description + "/ BrandName "+ cardetail.BrandName + "/ColorName " + cardetail.ColorName +" /DailyPrice"+ cardetail.DailyPrice);
+                foreach (var cardetail in result.Data)
+                {
+                    Console.WriteLine("CarName " + cardetail.Description + "/ BrandName " + cardetail.BrandName + "/ColorName " + cardetail.ColorName + " /DailyPrice" + cardetail.DailyPrice);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
         }
 
@@ -81,7 +89,7 @@ namespace ConsoleUI
         {
             CarManager carManager = new CarManager(new EfCarDal());
 
-            foreach (var car in carManager.GetAll())
+            foreach (var car in carManager.GetAll().Data)
             {
                 Console.WriteLine("Marka Bilgi : " + car.Description);
                 Console.WriteLine("Günlük fiyatı: " + car.DailyPrice);
